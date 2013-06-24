@@ -1,0 +1,10 @@
+This is an update of the original "Labs" directory for the immersion sessions.
+This assumes that a previous "Labs" directory exists on the VM, under the
+~gpadmin/Immersion/ directory, where the "Lab_2" directory contains a number
+of .tsv.gz files, which total around 250 MB in size.  The goal is to preserve
+those large data files, saving them into the "data" directory, removing all of
+the previous "Lab_?" directories.
+
+Running the script "update_labs.sh" will do this.
+
+

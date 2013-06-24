@@ -1,0 +1,56 @@
+Table of contents for labs
+==========================
+
+1. Load dataset to HDFS using DataLoader
+   -------------------------------------
+   This tutorial explains how to use DataLoader to upload file from Local FS to HDFS
+   Tutorial Folder : HDFS_LOAD_DATALOADER
+
+2. MapReduce Example 1
+   --------------------
+   Folder : MAP_REDUCE_1_SUMMARIZATION
+
+3. MapReduce Example 2
+   --------------------
+   Folder : MAP_REDUCE_2_MINMAX
+
+4. Hive Example
+   ------------
+   Folder :  HIVE
+   
+5. HAWQ data loading and querying
+   ------------------------------
+   Folder : HAWQ_DDL_QUERY
+
+6. Compare Hive and HAWQ runtimes
+   ------------------------------
+   HIVE_VS_HAWQ: Hive DDL and query comparison
+   (a) Run the Hive DDL to create Hive external tables against existing HDFS data
+   (b) Run some queries against HAWQ and Hive versions of these tables
+
+7. HAWQ query on HDFS external tables using GPXF
+   ---------------------------------------------
+   Folder : HAWQ_GPXF_HDFS
+
+8. HAWQ query on HBase external tables using GPXF
+   ----------------------------------------------
+   Folder : HAWQ_GPXF_HBASE
+
+9. HBase predicate pushdown
+   ------------------------
+   Folder : GPXF_PUSHDOWN: GPXF External Tables I -- predicate push-down
+   (a) Review the DDL run in HAWQ_DDL
+   (b) Run query involving HBase table ("customers_dim" table)
+   (c) Check the value of the GUC "gpxf_enable_filter_pushdown" (using "show")
+   (d) Toggle that to "off"
+   (e) Rerun the query
+
+10.External tables statistics
+   --------------------------
+   Folder : GPXF_STATS: GPXF External Tables II -- table statistics
+   (a) SELECT relpages, reltuples FROM pg_class WHERE relname = 'table_name';
+   (b) ANALYZE table_name;
+   (c) SELECT relpages, reltuples FROM pg_class WHERE relname = 'table_name';
+
+
+
