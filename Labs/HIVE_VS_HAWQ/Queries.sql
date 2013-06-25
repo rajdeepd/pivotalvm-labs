@@ -8,33 +8,33 @@
 
 -- Hive
 select billing_address_postal_code, sum(total_paid_amount) as total, sum(total_tax_amount) as tax
-from orders_hive
+from orders
 group by billing_address_postal_code
 order by total desc limit 10;
 
 /*
-48001	111868.31999999998	6712.099199999999
-15329	107958.24	6477.4944
-42714	103244.58	6194.674800000001
-41030	101365.50000000003	6081.93
-50223	100511.64	6030.6984
-03106	83566.41	0.0
-57104	77383.62999999999	3095.3452
-23002	73673.66	3683.6829999999995
-25703	68282.12	4096.9272
-26178	66836.4	4010.1839999999997
+48001    111868.31999999998    6712.099199999999
+15329    107958.24    6477.4944
+42714    103244.58    6194.674800000001
+41030    101365.50000000003    6081.93
+50223    100511.64    6030.6984
+03106    83566.41    0.0
+57104    77383.62999999999    3095.3452
+23002    73673.66    3683.6829999999995
+25703    68282.12    4096.9272
+26178    66836.4    4010.1839999999997
 
 Time taken: 98.089 seconds
 */
 
 -- HAWQ: GPXF
 select billing_address_postal_code, sum(total_paid_amount::float8) as total, sum(total_tax_amount::float8) as tax
-from retail_demo.orders
+from retail_demo.orders_hawq
 group by billing_address_postal_code
 order by total desc limit 10;
 
 /*
- billing_address_postal_code |   total   |    tax    
+ billing_address_postal_code |   total   |    tax   
 -----------------------------+-----------+-----------
  48001                       | 111868.32 | 6712.0992
  15329                       | 107958.24 | 6477.4944
@@ -52,7 +52,7 @@ Time: 16302.047 ms (compare with Hive's 98 seconds)
 */
 
 -- HAWQ: HAWQ AO table (first, create the AO table)
-create table retail_demo.orders_ao as select * from retail_demo.orders;
+create table retail_demo.orders_ao as select * from retail_demo.orders_hawq;
 /*
 SELECT 512071
 Time: 16615.257 ms
@@ -61,7 +61,7 @@ Time: 16615.257 ms
 select billing_address_postal_code, sum(total_paid_amount::float8) as total, sum(total_tax_amount::float8) as tax from retail_demo.orders_ao group by billing_address_postal_code order by total desc limit 10;
 
 /*
- billing_address_postal_code |   total   |    tax    
+ billing_address_postal_code |   total   |    tax   
 -----------------------------+-----------+-----------
  48001                       | 111868.32 | 6712.0992
  15329                       | 107958.24 | 6477.4944
@@ -97,7 +97,7 @@ from  (select customer_id
        ,      first_value(order_id) over (partition by customer_id order by order_datetime asc) as first_order_id
        ,      last_value(order_datetime) over (partition by customer_id order by order_datetime asc) as last_order_date
        ,      last_value(order_id) over (partition by customer_id order by order_datetime asc) as last_order_id
-       from   retail_demo.orders
+       from   retail_demo.orders_hawq
       ) base
 limit 10
 ;
@@ -112,13 +112,13 @@ FROM  (SELECT TO_CHAR(order_datetime::timestamp, 'YYYY-MM') AS order_month
                 PARTITION BY TO_CHAR(order_datetime::timestamp, 'YYYY-MM')
                 ORDER BY SUM(item_quantity::int)
               ) AS item_rank
-       -- FROM   retail_demo.order_lineitems -- Loaded in Lab 3 (just by putting file into HDFS)
-       FROM   retail_demo.order_lineitems_ao -- Loaded in Lab 4
+       -- FROM   retail_demo.order_lineitems -- Loaded in HDFS_LOAD (just by putting file into HDFS)
+       FROM   retail_demo.order_lineitems_hawq -- Loaded in HBASE_HAWQ_LOAD
        WHERE (order_datetime::timestamp BETWEEN timestamp '2010-10-01' AND timestamp '2010-10-14 23:59:59')
        -- OR     order_datetime::timestamp BETWEEN timestamp '2010-10-06' AND timestamp '2010-10-07 23:59:59')
        GROUP BY TO_CHAR(order_datetime::timestamp, 'YYYY-MM'), product_id
-      ) AS lineitems 
-,      retail_demo.products_dim p
+      ) AS lineitems
+,      retail_demo.products_dim_hawq p\
 WHERE  p.product_id = lineitems.product_id
 AND    lineitems.item_rank <= 10
 ORDER BY item_rank, order_month, product_name
@@ -133,7 +133,7 @@ SELECT product_id
 FROM (SELECT product_id, product_category_id
       ,      SUM(item_quantity::int) AS product_count
       ,      row_number() OVER (PARTITION BY product_category_id ORDER BY SUM(item_quantity::int) DESC) AS category_rank
-      FROM   retail_demo.order_lineitems
+      FROM   retail_demo.order_lineitems_hawq
       GROUP BY product_id, product_category_id
      ) AS lineitems
 WHERE category_rank <= 10
@@ -147,9 +147,8 @@ SELECT CASE WHEN order_datetime::timestamp < timestamp '2010-10-08' THEN date_tr
        END::date AS order_day
 ,      SUM(CASE WHEN order_datetime >= timestamp '2010-01-08' THEN 1 ELSE 0 END) AS num__orders_current
 ,      SUM(CASE WHEN order_datetime <  timestamp '2010-01-08' THEN 1 ELSE 0 END) AS num__orders_last_week
-FROM   retail_demo.order_lineitems
+FROM   retail_demo.order_lineitems_hawq
 WHERE  order_datetime BETWEEN timestamp '2010-10-01' AND timestamp '2010-10-15 23:59:59'
 GROUP BY 1
 ORDER BY 1
 ;
-
