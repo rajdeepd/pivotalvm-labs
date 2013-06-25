@@ -11,6 +11,7 @@ hive> use retail_demo;
 OK
 Time taken: 6.152 seconds
 
+
 hive> show tables;    
 OK
 categories_dim_hive
