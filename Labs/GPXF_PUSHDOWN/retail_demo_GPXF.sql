@@ -1,1 +1,0 @@
-../HAWQ_DDL/retail_demo_GPXF.sql
