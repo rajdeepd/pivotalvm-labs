@@ -208,7 +208,7 @@ Verifying Data loaded
 	Output of the sh script should look like
 
 	***
-	[gpadmin@pivhdsne hawq_tables]$ ./verify_load_hawq_tables.sh							    
+	[gpadmin@pivhdsne HAWQ_DDL_QUERY]$ ./verify_load_hawq_tables.sh							    
 		Table Name           |    Count 
 	-----------------------------+------------------------
 	 customers_dim_hawq          |   401430  

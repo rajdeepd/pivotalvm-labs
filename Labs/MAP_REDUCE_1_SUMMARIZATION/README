@@ -13,7 +13,8 @@ Pre-requisites
 -------------
 * Pivotal Command Center 2.0 deployed
 * Pivotal HD deployed
-* Development Environment setup
+* Apache Maven installed and mvn command available in the $PATH variable
+* Eclipse with Maven plugin)
 
 Approach
 --------

@@ -16,13 +16,6 @@ Loading data into HDFS using DataLoader
 
     Did the output confirm the presence of the *.gz files within HDFS?
       
-
-(b) Verify one of the tables previously created is able to query this data
-
-    - Run an SQL query using psql, or just ./verify_data_load.sh
-
-    Did it work?
-
 (c) Why the need for the "customers_dim" directory -- it seems redundant?  That
     will help, later, when we define the Hive external tables and also when
     we run out HBase build import, as both of these operations work with
