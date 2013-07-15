@@ -1,6 +1,12 @@
 Loading data into HDFS using DataLoader
 
 (a) Load the *.tsv.gz data files into HDFS using DataLoader
+
+    Check status of DataLoader
+	sudo /etc/init.d/dataloader-manager status
+        sudo /etc/init.d/dataloader-scheduler status
+	
+    If the DataLoader is not running, start the DataLoader as shown below
     1. Start services: sudo -u dataloader /usr/local/gphd/dataloader-2.0.1/bin/dataloader.sh start -s
     2. Open localhost:12380/manager in browser
     3. Login as gpadmin/password
@@ -9,6 +15,8 @@ Loading data into HDFS using DataLoader
     6. Select / on hdfs2 in destination
     7. Click Submit then Submit on next screen
     8. Data will copy and show complete on next screen
+    
+    Note: If your data is in some other directory, make sure permissions are available for `gpadmin` user
 
 (b) Verify that you get the expected result:
 

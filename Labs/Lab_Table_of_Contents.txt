@@ -28,26 +28,26 @@ Table of contents for labs
    (a) Run the Hive DDL to create Hive external tables against existing HDFS data
    (b) Run some queries against HAWQ and Hive versions of these tables
 
-7. HAWQ query on HDFS external tables using GPXF
+7. HAWQ query on HDFS external tables using PXF
    ---------------------------------------------
-   Folder : HAWQ_GPXF_HDFS
+   Folder : HAWQ_PXF_HDFS
 
-8. HAWQ query on HBase external tables using GPXF
+8. HAWQ query on HBase external tables using PXF
    ----------------------------------------------
-   Folder : HAWQ_GPXF_HBASE
+   Folder : HAWQ_PXF_HBASE
 
 9. HBase predicate pushdown
    ------------------------
-   Folder : GPXF_PUSHDOWN: GPXF External Tables I -- predicate push-down
+   Folder : PXF_PUSHDOWN: PXF External Tables I -- predicate push-down
    (a) Review the DDL run in HAWQ_DDL
    (b) Run query involving HBase table ("customers_dim" table)
-   (c) Check the value of the GUC "gpxf_enable_filter_pushdown" (using "show")
+   (c) Check the value of the GUC "PXF_enable_filter_pushdown" (using "show")
    (d) Toggle that to "off"
    (e) Rerun the query
 
 10.External tables statistics
    --------------------------
-   Folder : GPXF_STATS: GPXF External Tables II -- table statistics
+   Folder : PXF_STATS: PXF External Tables II -- table statistics
    (a) SELECT relpages, reltuples FROM pg_class WHERE relname = 'table_name';
    (b) ANALYZE table_name;
    (c) SELECT relpages, reltuples FROM pg_class WHERE relname = 'table_name';

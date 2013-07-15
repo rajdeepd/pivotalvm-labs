@@ -1,11 +1,11 @@
 
-Use Case : Display Every customer with their first order ID/date and last order ID/date
+Use Case : Every customer with their first order ID/date and last order ID/date
 ==========
 
 
 Use case
 --------
-The goal of the exercise is to get Every customer with their first order ID/date and last order ID/date .
+The given dataset has information about the Orders. Each Order has cutomer id of the customer. This use case is a simple example on how to get every customer with their first order ID/date and last order ID/date.
 
 Pre-requisites
 -------------
@@ -16,8 +16,8 @@ Pre-requisites
 
 Approach
 --------
-*  Understand the Data formats
-*  Decide on the Input and output formats
+*  Understand the data formats
+*  Decide on the input and output formats
 *  Design the Mapper
 *  Design the Reducer
 
@@ -95,10 +95,10 @@ The Reducer is also a simple one similar to the classic wordcount example. In th
     @Override
     public void reduce(IntWritable key, Iterable<Text> counts, Context context)
     throws IOException, InterruptedException {
-    StringBuffer temp;
-    Text result = new Text();
-    StringBuffer lastOrderDate = null;
-    StringBuffer firstOrderDate = null;
+        StringBuffer temp;
+        Text result = new Text();
+        StringBuffer lastOrderDate = null;
+        StringBuffer firstOrderDate = null;
         try {
             firstlastOrderDate = new StringBuffer(lastOrderDate(key, counts));
 	} catch (ParseException e) {
@@ -153,7 +153,7 @@ Building the project
 Go to the project directory
 
 ***bash
-cd  pivotal-samples
+cd  pivotal-samples/map-reduce-java
 ls
 cd customer_first_and_last_order_dates
 ***
